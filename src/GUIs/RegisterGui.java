@@ -5,12 +5,12 @@ import java.awt.*;
 
 public class RegisterGui extends BaseFrame{
     public RegisterGui(){
-        super("Light App Register");
+        super("Light Bank Register");
     }
 
     @Override
     protected void addGuiComponents() {
-        JLabel bankAppLabel = new JLabel("Light Bank");
+        JLabel bankAppLabel = new JLabel("Bank Register");
         bankAppLabel.setBounds(0, 20, super.getWidth(), 40);
         bankAppLabel.setFont(new Font("Arial", Font.BOLD, 32));
         bankAppLabel.setHorizontalAlignment(SwingConstants.CENTER);
