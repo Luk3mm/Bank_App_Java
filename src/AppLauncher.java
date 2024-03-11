@@ -11,11 +11,11 @@ public class AppLauncher {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                //new LoginGui().setVisible(true);
+                new LoginGui().setVisible(true);
                 //new RegisterGui().setVisible(true);
-                new BankAppGui(
+                /*new BankAppGui(
                         new User(1, "username", "password", new BigDecimal("20.00"))
-                ).setVisible(true);
+                ).setVisible(true);*/
             }
         });
     }
