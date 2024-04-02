@@ -96,6 +96,13 @@ public class BankAppGui extends BaseFrame implements ActionListener {
 
         if(buttonPressed.equalsIgnoreCase("Deposit") || buttonPressed.equalsIgnoreCase("Withdraw") || buttonPressed.equalsIgnoreCase("Transfer")){
             bankAppDialog.addCurrentBalanceAndAmount();
+
+            bankAppDialog.addActionButton(buttonPressed);
+
+            if(buttonPressed.equalsIgnoreCase("Transfer")){
+                bankAppDialog.addUserField();
+            }
+
             bankAppDialog.setVisible(true);
         }
     }
