@@ -1,11 +1,16 @@
 package GUIs;
 
+import dbobjects.DbJDBC;
+import dbobjects.Transaction;
 import dbobjects.User;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.math.BigDecimal;
 
-public class BankAppDialog extends JDialog {
+public class BankAppDialog extends JDialog implements ActionListener {
     private User user;
     private BankAppGui bankAppGui;
     private JLabel balanceLabel, enterAmountLabel, enterUserLabel;
@@ -45,7 +50,7 @@ public class BankAppDialog extends JDialog {
         enterAmountField = new JTextField();
         enterAmountField.setBounds(15, 80, getWidth() - 50, 40);
         enterAmountField.setFont(new Font("Arial", Font.BOLD, 20));
-        enterAmountField.setHorizontalAlignment(SwingConstants.RIGHT);
+        enterAmountField.setHorizontalAlignment(SwingConstants.CENTER);
         add(enterAmountField);
     }
 
@@ -53,6 +58,7 @@ public class BankAppDialog extends JDialog {
         actionButton = new JButton(actionButtonType);
         actionButton.setBounds(15, 300, getWidth() - 50, 40);
         actionButton.setFont(new Font("Arial", Font.BOLD, 20));
+        actionButton.addActionListener(this);
         add(actionButton);
     }
 
@@ -64,8 +70,55 @@ public class BankAppDialog extends JDialog {
         add(enterUserLabel);
 
         enterUserField = new JTextField();
-        enterUserField.setBounds(15, 190, getWidth() - 50, 20);
+        enterUserField.setBounds(15, 190, getWidth() - 50, 30);
         enterUserField.setFont(new Font("Arial", Font.BOLD, 20));
+        enterUserField.setHorizontalAlignment(SwingConstants.CENTER);
         add(enterUserField);
+    }
+
+    private void handleTransaction(String transactionType, float amountVal){
+        Transaction transaction;
+
+        if(transactionType.equalsIgnoreCase("Deposit")){
+            user.setCurrentBalance(user.getCurrentBalance().add(new BigDecimal(amountVal)));
+
+            transaction = new Transaction(user.getId(), transactionType, new BigDecimal(amountVal), null);
+        }
+        else{
+            user.setCurrentBalance(user.getCurrentBalance().subtract(new BigDecimal(amountVal)));
+
+            transaction = new Transaction(user.getId(), transactionType, new BigDecimal(-amountVal), null);
+        }
+
+        if(DbJDBC.addTransactionToDatabase(transaction) && DbJDBC.updateCurrentBalance(user)){
+            JOptionPane.showMessageDialog(this, transactionType + " Successfully!");
+            resetFieldsUpdateCurrentBalance();
+        }
+        else{
+            JOptionPane.showMessageDialog(this, transactionType + " Failed...");
+        }
+    }
+
+    private void resetFieldsUpdateCurrentBalance(){
+        enterAmountField.setText("");
+
+        if(enterUserField != null){
+            enterUserField.setText("");
+        }
+
+        balanceLabel.setText("Balance: $" + user.getCurrentBalance());
+
+        bankAppGui.getCurrentBalanceField().setText("$" + user.getCurrentBalance());
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String buttonPressed = e.getActionCommand();
+
+        float amountVal = Float.parseFloat(enterAmountField.getText());
+
+        if(buttonPressed.equalsIgnoreCase("Deposit")){
+            handleTransaction(buttonPressed, amountVal);
+        }
     }
 }
