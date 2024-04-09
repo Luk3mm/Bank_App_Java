@@ -111,6 +111,10 @@ public class BankAppDialog extends JDialog implements ActionListener {
         bankAppGui.getCurrentBalanceField().setText("$" + user.getCurrentBalance());
     }
 
+    private void handleTransfer(User user, String transferredUser, float amount){
+
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         String buttonPressed = e.getActionCommand();
@@ -119,6 +123,21 @@ public class BankAppDialog extends JDialog implements ActionListener {
 
         if(buttonPressed.equalsIgnoreCase("Deposit")){
             handleTransaction(buttonPressed, amountVal);
+        }
+        else{
+            int result = user.getCurrentBalance().compareTo(BigDecimal.valueOf(amountVal));
+
+            if(result < 0){
+                JOptionPane.showMessageDialog(this, "Error: Input value is more than current balance!");
+                return;
+            }
+
+            if(buttonPressed.equalsIgnoreCase("Withdraw")){
+                handleTransaction(buttonPressed, amountVal);
+            }
+            else{
+                String transferredUser = enterUserField.getText();
+            }
         }
     }
 }
