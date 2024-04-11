@@ -112,7 +112,13 @@ public class BankAppDialog extends JDialog implements ActionListener {
     }
 
     private void handleTransfer(User user, String transferredUser, float amount){
-
+        if(DbJDBC.transfer(user, transferredUser, amount)){
+            JOptionPane.showMessageDialog(this, "Transfer Success!");
+            resetFieldsUpdateCurrentBalance();
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Transfer Failed...");
+        }
     }
 
     @Override
@@ -137,6 +143,8 @@ public class BankAppDialog extends JDialog implements ActionListener {
             }
             else{
                 String transferredUser = enterUserField.getText();
+
+                handleTransfer(user, transferredUser, amountVal);
             }
         }
     }

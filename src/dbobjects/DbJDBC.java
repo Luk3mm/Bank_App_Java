@@ -95,6 +95,8 @@ public class DbJDBC {
             insertTransaction.setString(2, transaction.getTransactionType());
             insertTransaction.setBigDecimal(3, transaction.getTransactionAmount());
 
+            insertTransaction.executeUpdate();
+
             return true;
         }
         catch(SQLException e){
@@ -161,7 +163,7 @@ public class DbJDBC {
                 transferredUser.setCurrentBalance(transferredUser.getCurrentBalance().add(BigDecimal.valueOf(transferAmount)));
                 updateCurrentBalance(transferredUser);
 
-                user.setCurrentBalance(user.getCurrentBalance().add(BigDecimal.valueOf(transferAmount)));
+                user.setCurrentBalance(user.getCurrentBalance().subtract(BigDecimal.valueOf(transferAmount)));
                 updateCurrentBalance(user);
 
                 addTransactionToDatabase(transferTransaction);
