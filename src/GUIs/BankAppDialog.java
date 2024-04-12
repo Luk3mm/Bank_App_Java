@@ -87,6 +87,34 @@ public class BankAppDialog extends JDialog implements ActionListener {
         JScrollPane scrollPane = new JScrollPane(pastTransactionPanel);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setBounds(0, 20, getWidth() - 15, getHeight() - 15);
+
+        pastTransactions = DbJDBC.getPastTransaction(user);
+
+        for(int i = 0; i < pastTransactions.size(); i++){
+            Transaction pastTransaction = pastTransactions.get(i);
+
+            JPanel pastTransactionContainer = new JPanel();
+            pastTransactionContainer.setLayout(new BorderLayout());
+
+            JLabel transactionTypeLabel = new JLabel(pastTransaction.getTransactionType());
+            transactionTypeLabel.setFont(new Font("Arial", Font.BOLD, 20));
+
+            JLabel transactionAmountLabel = new JLabel(String.valueOf(pastTransaction.getTransactionAmount()));
+            transactionAmountLabel.setFont(new Font("Arial", Font.BOLD, 20));
+
+            JLabel transactionDateLabel = new JLabel(String.valueOf(pastTransaction.getTransactionDate()));
+            transactionDateLabel.setFont(new Font("Arial", Font.BOLD, 20));
+
+            pastTransactionContainer.add(transactionTypeLabel, BorderLayout.WEST);
+            pastTransactionContainer.add(transactionAmountLabel, BorderLayout.EAST);
+            pastTransactionContainer.add(transactionDateLabel, BorderLayout.SOUTH);
+            pastTransactionContainer.setBackground(Color.WHITE);
+            pastTransactionContainer.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+            pastTransactionPanel.add(pastTransactionContainer);
+        }
+
+        add(scrollPane);
     }
 
     private void handleTransaction(String transactionType, float amountVal){

@@ -186,7 +186,7 @@ public class DbJDBC {
         try{
             Connection connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
             PreparedStatement selectAllTransaction = connection.prepareStatement(
-                    "SELECT * FROM transaction WHERE user_id = ?"
+                    "SELECT * FROM transactions WHERE user_id = ?"
             );
             selectAllTransaction.setInt(1, user.getId());
 
@@ -199,10 +199,14 @@ public class DbJDBC {
                         resultSet.getBigDecimal("transaction_amount"),
                         resultSet.getDate("transaction_date")
                 );
+
+                pastTransactions.add(transaction);
             }
         }
         catch(SQLException e){
             e.printStackTrace();
         }
+
+        return pastTransactions;
     }
 }
