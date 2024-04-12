@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 
 public class BankAppDialog extends JDialog implements ActionListener {
     private User user;
@@ -16,6 +17,8 @@ public class BankAppDialog extends JDialog implements ActionListener {
     private JLabel balanceLabel, enterAmountLabel, enterUserLabel;
     private JTextField enterAmountField, enterUserField;
     private JButton actionButton;
+    private JPanel pastTransactionPanel;
+    private ArrayList<Transaction> pastTransactions;
 
     public BankAppDialog(BankAppGui bankAppGui, User user){
         setSize(400, 400);
@@ -74,6 +77,16 @@ public class BankAppDialog extends JDialog implements ActionListener {
         enterUserField.setFont(new Font("Arial", Font.BOLD, 20));
         enterUserField.setHorizontalAlignment(SwingConstants.CENTER);
         add(enterUserField);
+    }
+
+    public void addPastTransactionComponents(){
+        pastTransactionPanel = new JPanel();
+
+        pastTransactionPanel.setLayout(new BoxLayout(pastTransactionPanel, BoxLayout.Y_AXIS));
+
+        JScrollPane scrollPane = new JScrollPane(pastTransactionPanel);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setBounds(0, 20, getWidth() - 15, getHeight() - 15);
     }
 
     private void handleTransaction(String transactionType, float amountVal){

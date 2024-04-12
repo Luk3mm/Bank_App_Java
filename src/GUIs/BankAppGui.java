@@ -105,5 +105,8 @@ public class BankAppGui extends BaseFrame implements ActionListener {
 
             bankAppDialog.setVisible(true);
         }
+        else if(buttonPressed.equalsIgnoreCase("Past Transaction")){
+
+        }
     }
 }
