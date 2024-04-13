@@ -44,7 +44,7 @@ public class DbJDBC {
                 Connection connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
 
                 PreparedStatement preparedStatement = connection.prepareStatement(
-                        "INSERT INTO users(username, password, current_balance)" + "VAlUES(?, ?, ?)"
+                        "INSERT INTO users(username, password, current_balance) " + "VAlUES(?, ?, ?)"
                 );
 
                 preparedStatement.setString(1, username);
@@ -88,8 +88,8 @@ public class DbJDBC {
             Connection connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
 
             PreparedStatement insertTransaction = connection.prepareStatement(
-                "INSERT transactions(user_id, transaction_type, transaction_amount, transaction_date)" +
-                        "VALUES(?, ? ,? NOW())"
+                "INSERT transactions(user_id, transaction_type, transaction_amount, transaction_date) " +
+                        "VALUES(?, ?, ?, NOW())"
             );
 
             insertTransaction.setInt(1, transaction.getUserId());
